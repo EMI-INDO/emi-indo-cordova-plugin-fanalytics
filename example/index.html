@@ -1,0 +1,175 @@
+<html>
+<head>
+    <script type="text/javascript" src="cordova.js"></script>
+</head>
+<body>
+
+<script>
+/*
+// A pair of jeggings
+const item_jeggings = {
+  item_id: 'SKU_123',
+  item_name: 'jeggings',
+  item_category: 'pants',
+  item_variant: 'black',
+  item_brand: 'Google',
+  price: 9.99
+};
+
+// A pair of boots
+const item_boots = {
+  item_id: 'SKU_456',
+  item_name: 'boots',
+  item_category: 'shoes',
+  item_variant: 'brown',
+  item_brand: 'Google',
+  price: 24.99
+};
+
+*/
+
+// A pair of socks
+
+const default_item_socks = {
+  item_id: 'SKU_456',
+  item_name: 'ankle_socks',
+  item_category: 'socks',
+  item_variant: 'red',
+  item_brand: 'Google',
+  price: 2.99
+};
+
+const item_socks = {
+  item_id: 'SKU_123',
+  item_name: 'ankle_socks',
+  item_category: 'socks',
+  item_variant: 'red',
+  item_brand: 'Google',
+  price: 5.99
+};
+
+let _logEvent = () => {
+
+    cordova.plugins.emiFanalyticsPlugin.logEvent(
+    name = "item_socks",
+    params = item_socks,
+    (result) => { alert(result) },
+    (error) => { alert(error)
+
+    });
+	// call _logEvent();
+}
+
+
+
+let _resetAnalyticsData = () => {
+
+    cordova.plugins.emiFanalyticsPlugin.resetAnalyticsData(
+    (result) => { alert(result) },
+    (error) => { alert(error)
+
+    });
+	// call _resetAnalyticsData();
+}
+
+
+let _setCurrentScreen = () => {
+
+    cordova.plugins.emiFanalyticsPlugin.setCurrentScreen(
+    screenName = "My Menu",
+    (result) => { alert(result) },
+    (error) => { alert(error)
+
+    });
+	// call _setCurrentScreen();
+}
+
+
+let _setUserId = () => {
+
+    cordova.plugins.emiFanalyticsPlugin.setUserId(
+    userId = "123456",
+    (result) => { alert(result) },
+    (error) => { alert(error)
+
+    });
+	// call _setUserId();
+}
+
+
+
+
+let _setUserProperty = () => {
+
+    cordova.plugins.emiFanalyticsPlugin.setUserProperty(
+    name = 'favorite_food',
+	value = favoriteFood,
+    (result) => { alert(result) },
+    (error) => { alert(error)
+
+    });
+	// call _setUserProperty();
+}
+
+
+
+let _setDefaultEventParameters = () => {
+
+    cordova.plugins.emiFanalyticsPlugin.setDefaultEventParameters(
+    params = default_item_socks,
+    (result) => { alert(result) },
+    (error) => { alert(error)
+
+    });
+	// call _setDefaultEventParameters();
+}
+
+
+let _setConsent = () => {
+
+    cordova.plugins.emiFanalyticsPlugin.setConsent(
+    analyticsStorage = "DENIED", // String // DENIED | GRANTED
+	adStorage = "DENIED", // String // DENIED | GRANTED
+    (result) => { alert(result) },
+    (error) => { alert(error)
+
+    });
+	// call _setConsent();
+}
+
+
+
+
+document.addEventListener("deviceready", function(){
+
+    cordova.plugins.emiFanalyticsPlugin.setEnabled(
+	enabled = true,
+    (result) => { alert(result) },
+    (error) => { alert(error)
+
+    });
+	
+	//Sets the duration of inactivity that terminates the current session. The default value is 1800000 (30 minutes).
+	cordova.plugins.emiFanalyticsPlugin.setSessionTimeoutDuration(
+    milliseconds = 500,
+	(result) => { alert(result) },
+    (error) => { alert(error)
+
+    });
+	
+
+
+}, false);
+</script>
+
+
+
+<p> <button onclick="_logEvent();"> call _logEvent</button></p>
+
+<p> <button onclick="_resetAnalyticsData();"> call _resetAnalyticsData</button></p>
+
+<p> <button onclick="_setCurrentScreen();"> call _setCurrentScreen</button></p>
+
+
+</body>
+</html>
