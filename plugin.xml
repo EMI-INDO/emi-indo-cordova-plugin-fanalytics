@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin id="emi-indo-cordova-plugin-fanalytics" version="0.0.1" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+	<name>emiFanalyticsPlugin</name>
+	 <description>Cordova Plugin Firebase Analytics support consent</description>
+	 <author>EMI INDO</author>
+	 <license>ISC</license>
+	
+	
+	<js-module name="emiFanalyticsPlugin" src="www/emiFanalyticsPlugin.js">
+		<clobbers target="cordova.plugins.emiFanalyticsPlugin"/>
+	</js-module>
+	
+	<engines>
+		<engine name="cordova" version=">=9"/>
+		<engine name="cordova-android" version=">=8"/>
+	</engines>
+	
+	
+	<platform name="android">
+	
+	    <preference name="ANDROID_FIREBASE_BOM_VERSION" default="32.0.0"/>
+		<preference name="ANALYTICS_COLLECTION_ENABLED" default="true"/>
+		<preference name="AUTOMATIC_SCREEN_REPORTING_ENABLED" default="true"/>
+		<preference name="DEFAULT_ALLOW_ANALYTICS_STORAGE" default="true"/>
+		<preference name="DEFAULT_ALLOW_AD_STORAGE" default="true"/>
+	
+		<config-file parent="/*" target="res/xml/config.xml">
+			<feature name="emiFanalyticsPlugin">
+				<param name="android-package" value="emi.indo.cordova.plugin.fanalytics.emiFanalyticsPlugin"/>
+			</feature>
+		</config-file>
+		
+		<config-file target="config.xml" parent="/*">
+			<preference name="AndroidXEnabled" value="true"/>
+			<preference name="GradlePluginGoogleServicesEnabled" value="true"/>
+			<preference name="GradlePluginGoogleServicesVersion" value="4.3.15"/>
+			<preference name="GradlePluginKotlinEnabled" value="true" />
+			<preference name="GradlePluginKotlinCodeStyle" value="official" />
+            <preference name="GradlePluginKotlinVersion" value="1.7.10" />
+		</config-file>
+		<config-file target="AndroidManifest.xml" parent="/*">
+			<uses-permission android:name="android.permission.INTERNET"/>
+			<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+		</config-file>
+		<config-file target="AndroidManifest.xml" parent="/manifest/application">
+			<meta-data android:name="firebase_analytics_collection_enabled" android:value="$ANALYTICS_COLLECTION_ENABLED"/>
+			<meta-data android:name="google_analytics_automatic_screen_reporting_enabled" android:value="$AUTOMATIC_SCREEN_REPORTING_ENABLED"/>
+			<meta-data android:name="google_analytics_default_allow_analytics_storage" android:value="$DEFAULT_ALLOW_ANALYTICS_STORAGE"/>
+			<meta-data android:name="google_analytics_default_allow_ad_storage" android:value="$DEFAULT_ALLOW_AD_STORAGE"/>
+		</config-file>
+		
+		<config-file parent="/*" target="AndroidManifest.xml"/>
+		<source-file src="src/android/emiFanalyticsPlugin.kt" target-dir="app/src/main/kotlin/emi/indo/cordova/plugin/fanalytics"/>
+		
+		<framework src="src/android/build-extras.gradle" custom="true" type="gradleReference" />
+		
+		<framework src="platform('com.google.firebase:firebase-bom:$ANDROID_FIREBASE_BOM_VERSION')"/>
+		<framework src="com.google.firebase:firebase-analytics-ktx" />
+		
+	</platform>
+</plugin>
