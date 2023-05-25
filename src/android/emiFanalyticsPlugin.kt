@@ -1,4 +1,4 @@
-package emi.indo.cordova.plugin.fanalytics;
+package emi.indo.cordova.plugin.fa
 
 import android.os.Bundle
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -13,7 +13,7 @@ import org.json.JSONException
 import org.json.JSONObject
 import java.util.*
 
-class emiFanalyticsPlugin : CordovaPlugin() {
+class FirebaseAnalyticsPlugin : CordovaPlugin() {
     private var mFirebaseAnalytics: FirebaseAnalytics? = null
     var consentMap: MutableMap<ConsentType, ConsentStatus> = EnumMap(ConsentType::class.java)
     override fun initialize(cordova: CordovaInterface, webView: CordovaWebView) {
@@ -34,22 +34,28 @@ class emiFanalyticsPlugin : CordovaPlugin() {
                 }
                 return true
             }
-            "setSessionTimeoutDuration" -> {
-                val milliseconds = args.getLong(0)
-                try {
-                    mFirebaseAnalytics!!.setSessionTimeoutDuration(milliseconds)
-                    callbackContext.success()
-                } catch (e: NullPointerException) {
-                    callbackContext.error(e.toString())
-                }
-                return true
-            }
             "logEvent" -> {
                 val name = args.getString(0)
                 val params = args.getJSONObject(1)
                 val bundle = createBundleFromJSONObject(params)
                 try {
                     mFirebaseAnalytics!!.logEvent(name, bundle)
+                    callbackContext.success()
+                } catch (e: NullPointerException) {
+                    callbackContext.error(e.toString())
+                }
+                return true
+            }
+            "logEventSelectContent" -> {
+                val id = args.getString(0)
+                val name = args.getString(1)
+                val value = args.getString(2)
+                try {
+                    val bundle = Bundle()
+                    bundle.putString(FirebaseAnalytics.Param.ITEM_ID, id)
+                    bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, name)
+                    bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, value)
+                    mFirebaseAnalytics!!.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
                     callbackContext.success()
                 } catch (e: NullPointerException) {
                     callbackContext.error(e.toString())

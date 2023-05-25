@@ -12,6 +12,10 @@ exports.logEvent = function (arg0, arg1, success, error) {
     exec(success, error, 'emiFanalyticsPlugin', 'logEvent', [arg0, arg1]);
 };
 
+exports.logEventSelectContent = function (arg0, arg1, arg2, success, error) {
+    exec(success, error, 'emiFanalyticsPlugin', 'logEventSelectContent', [arg0, arg1, arg2]);
+};
+
 exports.setUserId = function (arg0, success, error) {
     exec(success, error, 'emiFanalyticsPlugin', 'setUserId', [arg0]);
 };
