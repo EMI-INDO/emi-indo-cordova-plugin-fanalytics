@@ -12,6 +12,7 @@
 - setEnabled
 - setSessionTimeoutDuration
 - logEvent
+- logEventSelectContent
 - setUserId
 - setUserProperty
 - resetAnalyticsData
@@ -42,6 +43,10 @@ cordova plugin add emi-indo-cordova-plugin-fanalytics
 ```sh
 cordova plugin add https://github.com/EMI-INDO/emi-indo-cordova-plugin-fanalytics
 ```
+### With variable
+```sh
+cordova plugin add emi-indo-cordova-plugin-fanalytics --variable ANDROID_FIREBASE_BOM_VERSION=32.0.0 --variable ANALYTICS_KTX_VERSIONS=21.2.2
+```
 ## Remove
 ```sh
 cordova plugin rm emi-indo-cordova-plugin-fanalytics
@@ -50,6 +55,7 @@ cordova plugin rm emi-indo-cordova-plugin-fanalytics
 ## config.xml ( Optional )
 ```sh
 <preference name="ANDROID_FIREBASE_BOM_VERSION" value="32.0.0"/>
+<preference name="ANALYTICS_KTX_VERSION" value="21.2.2"/>
 <preference name="ANALYTICS_COLLECTION_ENABLED" value="true"/>
 <preference name="AUTOMATIC_SCREEN_REPORTING_ENABLED" value="true"/>
   
