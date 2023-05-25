@@ -48,6 +48,8 @@ const item_socks = {
   price: 5.99
 };
 
+
+
 let _logEvent = () => {
 
     cordova.plugins.emiFanalyticsPlugin.logEvent(
@@ -59,6 +61,21 @@ let _logEvent = () => {
     });
 	// call _logEvent();
 }
+
+
+let _logEventSelectContent = () => {
+
+    cordova.plugins.emiFanalyticsPlugin.logEventSelectContent(
+    id = "item_id",
+	name = "item_name",
+	value = "item_value",
+    (result) => { alert(result) },
+    (error) => { alert(error)
+
+    });
+	// call _logEventSelectContent();
+}
+
 
 
 
@@ -165,6 +182,8 @@ document.addEventListener("deviceready", function(){
 
 
 <p> <button onclick="_logEvent();"> call _logEvent</button></p>
+
+<p> <button onclick="_logEventSelectContent();"> call _logEventSelectContent</button></p>
 
 <p> <button onclick="_resetAnalyticsData();"> call _resetAnalyticsData</button></p>
 

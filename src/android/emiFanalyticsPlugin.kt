@@ -1,4 +1,4 @@
-package emi.indo.cordova.plugin.fa
+package emi.indo.cordova.plugin.fanalytics;
 
 import android.os.Bundle
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -13,7 +13,7 @@ import org.json.JSONException
 import org.json.JSONObject
 import java.util.*
 
-class FirebaseAnalyticsPlugin : CordovaPlugin() {
+class emiFanalyticsPlugin : CordovaPlugin() {
     private var mFirebaseAnalytics: FirebaseAnalytics? = null
     var consentMap: MutableMap<ConsentType, ConsentStatus> = EnumMap(ConsentType::class.java)
     override fun initialize(cordova: CordovaInterface, webView: CordovaWebView) {

@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<plugin id="emi-indo-cordova-plugin-fanalytics" version="0.0.2" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+<plugin id="emi-indo-cordova-plugin-fanalytics" version="0.0.4" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
 	<name>emiFanalyticsPlugin</name>
 	 <description>Cordova Plugin Firebase Analytics support consent</description>
 	 <author>EMI INDO</author>
@@ -19,6 +19,7 @@
 	<platform name="android">
 	
 	    <preference name="ANDROID_FIREBASE_BOM_VERSION" default="32.0.0"/>
+		<preference name="ANALYTICS_KTX_VERSION" default="21.2.2"/>
 		<preference name="ANALYTICS_COLLECTION_ENABLED" default="true"/>
 		<preference name="AUTOMATIC_SCREEN_REPORTING_ENABLED" default="true"/>
 		<preference name="DEFAULT_ALLOW_ANALYTICS_STORAGE" default="true"/>
@@ -55,7 +56,7 @@
 		<framework src="src/android/build-extras.gradle" custom="true" type="gradleReference" />
 		
 		<framework src="platform('com.google.firebase:firebase-bom:$ANDROID_FIREBASE_BOM_VERSION')"/>
-		<framework src="com.google.firebase:firebase-analytics-ktx" />
+		<framework src='com.google.firebase:firebase-analytics-ktx:$ANALYTICS_KTX_VERSION' />
 		
 	</platform>
 </plugin>

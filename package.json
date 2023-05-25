@@ -1,6 +1,6 @@
 {
   "name": "emi-indo-cordova-plugin-fanalytics",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "description": "Cordova Plugin Firebase Analytics support consent",
   "cordova": {
     "id": "emi-indo-cordova-plugin-fanalytics",
