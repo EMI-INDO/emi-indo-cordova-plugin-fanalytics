@@ -1,11 +1,12 @@
 {
   "name": "emi-indo-cordova-plugin-fanalytics",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Cordova Plugin Firebase Analytics support consent",
   "cordova": {
     "id": "emi-indo-cordova-plugin-fanalytics",
     "platforms": [
-      "android"
+      "android",
+	  "ios"
     ]
   },
   "repository": {
@@ -15,6 +16,7 @@
   "keywords": [
     "ecosystem:cordova",
     "cordova-android",
+	"cordova-ios",
 	"cordova-plugin-firebase",
 	"cordova-plugin-firebase-analytics",
 	"cordova-plugin-analytics",
