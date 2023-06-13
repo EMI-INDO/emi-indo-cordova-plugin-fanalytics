@@ -25,6 +25,10 @@
 		            default="true"/>
 		<preference name="AUTOMATIC_SCREEN_REPORTING_ENABLED"
 		            default="true"/>
+		<preference name="DEFAULT_ALLOW_ANALYTICS_STORAGE"
+		            default="true"/>
+		<preference name="DEFAULT_ALLOW_AD_STORAGE"
+		            default="true"/>
 		<config-file target="config.xml"
 		             parent="/*">
 			<feature name="emiFanalyticsPlugin">
@@ -39,6 +43,14 @@
 		<config-file target="*-Info.plist"
 		             parent="FirebaseAutomaticScreenReportingEnabled">
 			<string>$AUTOMATIC_SCREEN_REPORTING_ENABLED</string>
+		</config-file>
+		<config-file target="*-Info.plist"
+		             parent="GOOGLE_ANALYTICS_DEFAULT_ALLOW_ANALYTICS_STORAGE">
+			<string>$DEFAULT_ALLOW_ANALYTICS_STORAGE</string>
+		</config-file>
+		<config-file target="*-Info.plist"
+		             parent="GOOGLE_ANALYTICS_DEFAULT_ALLOW_AD_STORAGE">
+			<string>$DEFAULT_ALLOW_AD_STORAGE</string>
 		</config-file>
 		<source-file src="src/ios/emiFanalyticsPlugin.swift"/>
 		<podspec>
