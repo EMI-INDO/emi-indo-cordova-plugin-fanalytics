@@ -7,6 +7,11 @@
   [![PayPal](https://img.shields.io/badge/PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://paypal.me/emiindo)  
 
 
+## Minimum Cordova Engines
+- cordova version = 10.0.0
+- cordova-android version = 11.0.0
+- cordova-ios version = 6.0.0
+
 ## Features
 
 - setEnabled
