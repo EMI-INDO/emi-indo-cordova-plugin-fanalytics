@@ -1,5 +1,6 @@
 # emi-indo-cordova-plugin-fanalytics
- Cordova Plugin Firebase Analytics support consent and AdMob
+### Cordova Plugin Firebase Analytics support consent and AdMob
+### Support Capacitor
  
  ## [full example ](https://github.com/EMI-INDO/emi-indo-cordova-plugin-fanalytics/tree/main/example/www) 
 
@@ -25,8 +26,6 @@
 
 > [!NOTE]  
 > - Android only, IOS I have not updated yet
-> - Next release capacitor support will be added.
-
 
 ## Features
 
@@ -42,7 +41,45 @@
 - setConsent
 - setAdMobRevenuePaid
 
-## Installation plugin
+## Installation Capacitor
+
+- project confirmation ( Android )
+- add file  ```google-services.json ``` inside the www folder
+
+- project confirmation ( IOS )
+- add file  ```GoogleService-Info.plist ``` inside the www folder
+
+
+## Installation
+```sh
+npm i emi-indo-cordova-plugin-fanalytics
+```
+
+### add node to package.json 
+
+```sh
+
+ "scripts": {
+	.....
+	.....
+	"update-analytics": "node node_modules/emi-indo-cordova-plugin-fanalytics/hooks/capacitor-config-hooks.js",
+	.....
+	.....
+  },
+
+```
+### Run the Hook script
+```
+npm run update-analytics
+```
+### Plugin Synchronization: Run the following command to synchronize the Cordova plugin to the Capacitor project:
+
+```
+npx cap sync
+```
+
+
+## Installation Cordova
 
 ```sh
 cordova plugin add emi-indo-cordova-plugin-fanalytics
@@ -57,13 +94,13 @@ cordova plugin add https://github.com/EMI-INDO/emi-indo-cordova-plugin-fanalytic
 cordova plugin rm emi-indo-cordova-plugin-fanalytics
 ```
 
-# project confirmation (ANDROID)
+## project confirmation (ANDROID)
 
-### add file  ```google-services.json ``` inside the www folder
+- add file  ```google-services.json ``` inside the www folder
 
 
-# project confirmation ( IOS )
-### add file  ```GoogleService-Info.plist ``` inside the www folder
+## project confirmation ( IOS )
+- add file  ```GoogleService-Info.plist ``` inside the www folder
 - After the plugin has been added run the`
 - ```cordova prepare```
 ### Then from the command line run: cd/path/platform/ios
