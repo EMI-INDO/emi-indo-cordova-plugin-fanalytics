@@ -3,8 +3,8 @@ import FirebaseAnalytics;
 import UIKit
 import Foundation
 
-@objc(emiFanalyticsPlugin)
-public class emiFanalyticsPlugin : CDVPlugin {
+@objc(EmiFirebaseAnalyticsPlugin)
+public class EmiFirebaseAnalyticsPlugin : CDVPlugin {
     public override func pluginInitialize() {
         FirebaseApp.configure()
         }

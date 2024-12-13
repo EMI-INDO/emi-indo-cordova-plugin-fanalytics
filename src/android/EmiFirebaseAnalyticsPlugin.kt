@@ -1,9 +1,13 @@
 package emi.indo.cordova.plugin.fanalytics;
 
+import android.app.Activity
+import android.content.Context
 import android.os.Bundle
+import com.google.firebase.Firebase
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.FirebaseAnalytics.ConsentStatus
 import com.google.firebase.analytics.FirebaseAnalytics.ConsentType
+import com.google.firebase.analytics.analytics
 import org.apache.cordova.CallbackContext
 import org.apache.cordova.CordovaInterface
 import org.apache.cordova.CordovaPlugin
@@ -13,21 +17,30 @@ import org.json.JSONException
 import org.json.JSONObject
 import java.util.*
 
-class emiFanalyticsPlugin : CordovaPlugin() {
-    private var mFirebaseAnalytics: FirebaseAnalytics? = null
+/**
+ * Created by EMI INDO So on May 6, 2023
+ */
+
+class EmiFirebaseAnalyticsPlugin : CordovaPlugin() {
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
+    private var mActivity: Activity? = null
+    private var mContext: Context? = null
     var consentMap: MutableMap<ConsentType, ConsentStatus> = EnumMap(ConsentType::class.java)
     override fun initialize(cordova: CordovaInterface, webView: CordovaWebView) {
         super.initialize(cordova, webView)
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this.cordova.activity.applicationContext)
+        mActivity = this.cordova.activity
+        mContext = this.cordova.activity.applicationContext
+        firebaseAnalytics = Firebase.analytics
     }
 
     @Throws(JSONException::class)
     override fun execute(action: String, args: JSONArray, callbackContext: CallbackContext): Boolean {
+        var options = args.getJSONObject(0)
         when (action) {
             "setEnabled" -> {
-                val enabled = args.getBoolean(0)
+                val enabled = options.getBoolean("setEnabled")
                 try {
-                    FirebaseAnalytics.getInstance(cordova.activity).setAnalyticsCollectionEnabled(enabled)
+                    firebaseAnalytics.setAnalyticsCollectionEnabled(enabled)
                     callbackContext.success()
                 } catch (e: NullPointerException) {
                     callbackContext.error(e.toString())
@@ -35,11 +48,11 @@ class emiFanalyticsPlugin : CordovaPlugin() {
                 return true
             }
             "logEvent" -> {
-                val name = args.getString(0)
-                val params = args.getJSONObject(1)
+                val name = options.getString("name")
+                val params = options.getJSONObject("params")
                 val bundle = createBundleFromJSONObject(params)
                 try {
-                    mFirebaseAnalytics!!.logEvent(name, bundle)
+                    firebaseAnalytics.logEvent(name, bundle)
                     callbackContext.success()
                 } catch (e: NullPointerException) {
                     callbackContext.error(e.toString())
@@ -47,15 +60,15 @@ class emiFanalyticsPlugin : CordovaPlugin() {
                 return true
             }
             "logEventSelectContent" -> {
-                val id = args.getString(0)
-                val name = args.getString(1)
-                val value = args.getString(2)
+                val id = options.getString("id")
+                val name = options.getString("name")
+                val value = options.getString("value")
                 try {
                     val bundle = Bundle()
                     bundle.putString(FirebaseAnalytics.Param.ITEM_ID, id)
                     bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, name)
                     bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, value)
-                    mFirebaseAnalytics!!.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
+                    firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
                     callbackContext.success()
                 } catch (e: NullPointerException) {
                     callbackContext.error(e.toString())
@@ -63,9 +76,9 @@ class emiFanalyticsPlugin : CordovaPlugin() {
                 return true
             }
             "setUserId" -> {
-                val userId = args.getString(0)
+                val userId = options.getString("userId")
                 try {
-                    mFirebaseAnalytics!!.setUserId(userId)
+                    firebaseAnalytics.setUserId(userId)
                     callbackContext.success()
                 } catch (e: NullPointerException) {
                     callbackContext.error(e.toString())
@@ -73,10 +86,10 @@ class emiFanalyticsPlugin : CordovaPlugin() {
                 return true
             }
             "setUserProperty" -> {
-                val name = args.getString(0)
-                val value = args.getString(1)
+                val name = options.getString("name")
+                val value = options.getString("value")
                 try {
-                    mFirebaseAnalytics!!.setUserProperty(name, value)
+                    firebaseAnalytics.setUserProperty(name, value)
                     callbackContext.success()
                 } catch (e: NullPointerException) {
                     callbackContext.error(e.toString())
@@ -85,7 +98,7 @@ class emiFanalyticsPlugin : CordovaPlugin() {
             }
             "resetAnalyticsData" -> {
                 try {
-                    mFirebaseAnalytics!!.resetAnalyticsData()
+                    firebaseAnalytics.resetAnalyticsData()
                     callbackContext.success()
                 } catch (e: NullPointerException) {
                     callbackContext.error(e.toString())
@@ -93,11 +106,11 @@ class emiFanalyticsPlugin : CordovaPlugin() {
                 return true
             }
             "setCurrentScreen" -> {
-                val screenName = args.getString(0)
+                val screenName = options.getString("screenName")
                 try {
                     val bundle = Bundle()
                     bundle.putString(FirebaseAnalytics.Param.SCREEN_NAME, screenName)
-                    mFirebaseAnalytics!!.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW, bundle)
+                    firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW, bundle)
                     callbackContext.success()
                 } catch (e: NullPointerException) {
                     callbackContext.error(e.toString())
@@ -105,10 +118,10 @@ class emiFanalyticsPlugin : CordovaPlugin() {
                 return true
             }
             "setDefaultEventParameters" -> {
-                val params = args.getJSONObject(0)
+                val params = options.getJSONObject("params")
                 val bundle = createBundleFromJSONObject(params)
                 try {
-                    mFirebaseAnalytics!!.setDefaultEventParameters(bundle)
+                    firebaseAnalytics.setDefaultEventParameters(bundle)
                     callbackContext.success()
                 } catch (e: NullPointerException) {
                     callbackContext.error(e.toString())
@@ -116,16 +129,45 @@ class emiFanalyticsPlugin : CordovaPlugin() {
                 return true
             }
             "setConsent" -> {
-                val analyticsStorage = args.getString(0)
-                val adStorage = args.getString(1)
-                consentMap[ConsentType.ANALYTICS_STORAGE] = ConsentStatus.valueOf(analyticsStorage)
-                consentMap[ConsentType.AD_STORAGE] = ConsentStatus.valueOf(adStorage)
-                mFirebaseAnalytics!!.setConsent(consentMap)
+                val analyticsStorage = options.getString("analyticsStorage")
+                val adStorage = options.getString("adStorage")
+                try {
+                    consentMap[ConsentType.ANALYTICS_STORAGE] = ConsentStatus.valueOf(analyticsStorage)
+                    consentMap[ConsentType.AD_STORAGE] = ConsentStatus.valueOf(adStorage)
+                    firebaseAnalytics.setConsent(consentMap)
+                    callbackContext.success()
+                } catch (e: NullPointerException) {
+                    callbackContext.error(e.toString())
+                }
+                return true
+            }
+            "setAdMobRevenuePaid" -> {
+                try {
+                    val data: JSONObject = options.getJSONObject("data")
+                    val value = data.optDouble("value", 0.0)
+                    val currencyCode = data.optString("currencyCode", "USD")
+                    val precision = data.optString("precision", "unknown")
+                    val adUnitId = data.optString("adUnitId", "unknown")
+                    val bundle = Bundle().apply {
+                        putDouble("value", value)
+                        putString("currencyCode", currencyCode)
+                        putString("precision", precision)
+                        putString("adUnitId", adUnitId)
+                    }
+                    firebaseAnalytics.logEvent(FirebaseAnalytics.Event.AD_IMPRESSION, bundle)
+                    callbackContext.success("Event logged successfully.")
+                } catch (e: JSONException) {
+                    callbackContext.error("JSONException: ${e.message}")
+                } catch (e: Exception) {
+                    callbackContext.error("Exception: ${e.message}")
+                }
                 return true
             }
         }
         return false
     }
+
+
 
     @Throws(JSONException::class)
     private fun createBundleFromJSONObject(params: JSONObject): Bundle {
