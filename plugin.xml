@@ -1,127 +1,116 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        id="emi-indo-cordova-plugin-fanalytics"
-        version="0.0.5">
-	<name>emiFanalyticsPlugin</name>
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	id="emi-indo-cordova-plugin-fanalytics"
+	version="0.0.6">
+	<name>EmiFanalyticsPlugin</name>
 	<description>Cordova Plugin Firebase Analytics support consent</description>
 	<author>EMI INDO</author>
 	<license>ISC</license>
-	<js-module name="emiFanalyticsPlugin"
-	           src="www/emiFanalyticsPlugin.js">
-		<clobbers target="cordova.plugins.emiFanalyticsPlugin"/>
+
+	<js-module name="EmiFirebaseAnalyticsPlugin" src="www/EmiFirebaseAnalyticsPlugin.js">
+		<clobbers target="cordova.plugins.EmiFirebaseAnalyticsPlugin" />
 	</js-module>
+
 	<engines>
-		<engine name="cordova"
-		        version=">=10.0.0"/>
-		<engine name="cordova-android"
-		        version=">=11.0.0"/>
-		<engine name="cordova-ios"
-		        version=">=6.0.0"/>
+		<engine name="cordova" version=">=10.0.0" />
+		<engine name="cordova-android" version=">=12.0.0" />
+		<engine name="cordova-ios" version=">=6.0.0" />
 	</engines>
+
+    <hook type="before_plugin_install" src="hooks/before_plugin_install.js" />
+
 	<platform name="ios">
-		<preference name="IOS_FIREBASE_POD_VERSION"
-		            default="10.10.0"/>
-		<preference name="ANALYTICS_COLLECTION_ENABLED"
-		            default="true"/>
-		<preference name="AUTOMATIC_SCREEN_REPORTING_ENABLED"
-		            default="true"/>
-		<preference name="DEFAULT_ALLOW_ANALYTICS_STORAGE"
-		            default="true"/>
-		<preference name="DEFAULT_ALLOW_AD_STORAGE"
-		            default="true"/>
+
+		<preference name="IOS_FIREBASE_POD_VERSION" default="10.10.0" />
+		<preference name="ANALYTICS_COLLECTION_ENABLED" default="true" />
+		<preference name="AUTOMATIC_SCREEN_REPORTING_ENABLED" default="true" />
+		<preference name="DEFAULT_ALLOW_ANALYTICS_STORAGE" default="true" />
+		<preference name="DEFAULT_ALLOW_AD_STORAGE" default="true" />
+
 		<config-file target="config.xml"
-		             parent="/*">
-			<feature name="emiFanalyticsPlugin">
-				<param name="ios-package"
-				       value="emiFanalyticsPlugin"/>
+			parent="/*">
+			<feature name="EmiFirebaseAnalyticsPlugin">
+				<param name="ios-package" value="EmiFirebaseAnalyticsPlugin" />
+				<param name="onload" value="true" />
 			</feature>
 		</config-file>
+
 		<config-file target="*-Info.plist"
-		             parent="FIREBASE_ANALYTICS_COLLECTION_ENABLED">
+			parent="FIREBASE_ANALYTICS_COLLECTION_ENABLED">
 			<string>$ANALYTICS_COLLECTION_ENABLED</string>
 		</config-file>
 		<config-file target="*-Info.plist"
-		             parent="FirebaseAutomaticScreenReportingEnabled">
+			parent="FirebaseAutomaticScreenReportingEnabled">
 			<string>$AUTOMATIC_SCREEN_REPORTING_ENABLED</string>
 		</config-file>
 		<config-file target="*-Info.plist"
-		             parent="GOOGLE_ANALYTICS_DEFAULT_ALLOW_ANALYTICS_STORAGE">
+			parent="GOOGLE_ANALYTICS_DEFAULT_ALLOW_ANALYTICS_STORAGE">
 			<string>$DEFAULT_ALLOW_ANALYTICS_STORAGE</string>
 		</config-file>
 		<config-file target="*-Info.plist"
-		             parent="GOOGLE_ANALYTICS_DEFAULT_ALLOW_AD_STORAGE">
+			parent="GOOGLE_ANALYTICS_DEFAULT_ALLOW_AD_STORAGE">
 			<string>$DEFAULT_ALLOW_AD_STORAGE</string>
 		</config-file>
-		<source-file src="src/ios/emiFanalyticsPlugin.swift"/>
+		<source-file src="src/ios/EmiFirebaseAnalyticsPlugin.swift" />
 		<podspec>
 			<config>
-				<source url="https://cdn.cocoapods.org/"/>
+				<source url="https://cdn.cocoapods.org/" />
 			</config>
 			<pods use-frameworks="true">
 				<pod name="Firebase/Analytics"
-				     spec="$IOS_FIREBASE_POD_VERSION"/>
+					spec="$IOS_FIREBASE_POD_VERSION" />
 			</pods>
 		</podspec>
 	</platform>
+
+
 	<platform name="android">
-		<preference default="32.0.0"
-		            name="ANDROID_FIREBASE_BOM_VERSION"/>
-		<preference default="21.2.2"
-		            name="ANALYTICS_KTX_VERSION"/>
-		<preference default="true"
-		            name="ANALYTICS_COLLECTION_ENABLED"/>
-		<preference default="true"
-		            name="AUTOMATIC_SCREEN_REPORTING_ENABLED"/>
-		<preference default="true"
-		            name="DEFAULT_ALLOW_ANALYTICS_STORAGE"/>
-		<preference default="true"
-		            name="DEFAULT_ALLOW_AD_STORAGE"/>
+		<preference default="33.7.0" name="ANDROID_FIREBASE_BOM_VERSION" />
+		<preference default="22.1.2" name="ANALYTICS_VERSION" />
+		<preference default="true" name="ANALYTICS_COLLECTION_ENABLED" />
+		<preference default="true" name="AUTOMATIC_SCREEN_REPORTING_ENABLED" />
+		<preference default="true" name="DEFAULT_ALLOW_ANALYTICS_STORAGE" />
+		<preference default="true" name="DEFAULT_ALLOW_AD_STORAGE" />
+
 		<config-file parent="/*"
-		             target="res/xml/config.xml">
-			<feature name="emiFanalyticsPlugin">
-				<param name="android-package"
-				       value="emi.indo.cordova.plugin.fanalytics.emiFanalyticsPlugin"/>
+			target="res/xml/config.xml">
+			<feature name="EmiFirebaseAnalyticsPlugin">
+				<param name="android-package" value="emi.indo.cordova.plugin.fanalytics.EmiFirebaseAnalyticsPlugin" />
+			    <param name="onload" value="true" />
 			</feature>
 		</config-file>
+
 		<config-file parent="/*"
-		             target="config.xml">
-			<preference name="AndroidXEnabled"
-			            value="true"/>
-			<preference name="GradlePluginGoogleServicesEnabled"
-			            value="true"/>
-			<preference name="GradlePluginGoogleServicesVersion"
-			            value="4.3.15"/>
-			<preference name="GradlePluginKotlinEnabled"
-			            value="true"/>
-			<preference name="GradlePluginKotlinCodeStyle"
-			            value="official"/>
-			<preference name="GradlePluginKotlinVersion"
-			            value="1.7.10"/>
+			target="config.xml">
+			<preference name="AndroidXEnabled" value="true" />
+			<preference name="GradlePluginGoogleServicesEnabled" value="true" />
+			<preference name="GradlePluginGoogleServicesVersion" value="4.3.15" />
+			<preference name="GradlePluginKotlinEnabled" value="true" />
+			<preference name="GradlePluginKotlinVersion" value="1.9.24" />
 		</config-file>
+
 		<config-file parent="/*"
-		             target="AndroidManifest.xml">
-			<uses-permission android:name="android.permission.INTERNET"/>
-			<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+			target="AndroidManifest.xml">
+			<uses-permission android:name="android.permission.INTERNET" />
+			<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 		</config-file>
+
 		<config-file parent="/manifest/application"
-		             target="AndroidManifest.xml">
-			<meta-data android:name="firebase_analytics_collection_enabled"
-			           android:value="$ANALYTICS_COLLECTION_ENABLED"/>
-			<meta-data android:name="google_analytics_automatic_screen_reporting_enabled"
-			           android:value="$AUTOMATIC_SCREEN_REPORTING_ENABLED"/>
-			<meta-data android:name="google_analytics_default_allow_analytics_storage"
-			           android:value="$DEFAULT_ALLOW_ANALYTICS_STORAGE"/>
-			<meta-data android:name="google_analytics_default_allow_ad_storage"
-			           android:value="$DEFAULT_ALLOW_AD_STORAGE"/>
+			target="AndroidManifest.xml">
+			<meta-data android:name="firebase_analytics_collection_enabled" android:value="$ANALYTICS_COLLECTION_ENABLED" />
+			<meta-data android:name="google_analytics_automatic_screen_reporting_enabled" android:value="$AUTOMATIC_SCREEN_REPORTING_ENABLED" />
+			<meta-data android:name="google_analytics_default_allow_analytics_storage" android:value="$DEFAULT_ALLOW_ANALYTICS_STORAGE" />
+			<meta-data android:name="google_analytics_default_allow_ad_storage" android:value="$DEFAULT_ALLOW_AD_STORAGE" />
 		</config-file>
+
 		<config-file parent="/*"
-		             target="AndroidManifest.xml"/>
-		<source-file src="src/android/emiFanalyticsPlugin.kt"
-		             target-dir="app/src/main/kotlin/emi/indo/cordova/plugin/fanalytics"/>
+			target="AndroidManifest.xml" />
+		<source-file src="src/android/EmiFirebaseAnalyticsPlugin.kt"
+			target-dir="app/src/main/kotlin/emi/indo/cordova/plugin/fanalytics" />
 		<framework custom="true"
-		           src="src/android/build-extras.gradle"
-		           type="gradleReference"/>
-		<framework src="platform('com.google.firebase:firebase-bom:$ANDROID_FIREBASE_BOM_VERSION')"/>
-		<framework src="com.google.firebase:firebase-analytics-ktx:$ANALYTICS_KTX_VERSION"/>
+			src="src/android/build-extras.gradle"
+			type="gradleReference" />
+		<framework src="platform('com.google.firebase:firebase-bom:$ANDROID_FIREBASE_BOM_VERSION')" />
+		<framework src="com.google.firebase:firebase-analytics:$ANALYTICS_VERSION" />
 	</platform>
 </plugin>
