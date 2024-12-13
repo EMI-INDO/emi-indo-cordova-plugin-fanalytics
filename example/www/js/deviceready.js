@@ -66,7 +66,7 @@ const default_item_socks = {
 
     if (typeof cordova !== 'undefined') {
 
-        cordova.plugins.EmiFirebaseAnalyticsPlugin.logEvent({ name: "item_socks", params: item_socks });
+        cordova.plugins.EmiFirebaseAnalyticsPlugin.logEvent({ name: "log_socks", params: item_socks });
 
     }
 }
@@ -174,7 +174,13 @@ function setConsent() {
 /////////////////////
 document.addEventListener("deviceready", function () {
 
-   cordova.plugins.EmiFirebaseAnalyticsPlugin.setEnabled({ setEnabled: true });
+  setTimeout(() => {
+    console.log("Only Debug");
+    cordova.plugins.EmiFirebaseAnalyticsPlugin.resetAnalyticsData();
+  }, 5000);
+  
+
+   cordova.plugins.EmiFirebaseAnalyticsPlugin.setEnabled({ setEnabled: true});
 	
 	//Sets the duration of inactivity that terminates the current session. The default value is 1800000 (30 minutes).
 	cordova.plugins.EmiFirebaseAnalyticsPlugin.setSessionTimeoutDuration({ milliseconds: 500 });

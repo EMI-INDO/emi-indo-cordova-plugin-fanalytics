@@ -3,11 +3,9 @@ package emi.indo.cordova.plugin.fanalytics;
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
-import com.google.firebase.Firebase
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.FirebaseAnalytics.ConsentStatus
 import com.google.firebase.analytics.FirebaseAnalytics.ConsentType
-import com.google.firebase.analytics.analytics
 import org.apache.cordova.CallbackContext
 import org.apache.cordova.CordovaInterface
 import org.apache.cordova.CordovaPlugin
@@ -30,14 +28,15 @@ class EmiFirebaseAnalyticsPlugin : CordovaPlugin() {
         super.initialize(cordova, webView)
         mActivity = this.cordova.activity
         mContext = this.cordova.activity.applicationContext
-        firebaseAnalytics = Firebase.analytics
+        firebaseAnalytics = FirebaseAnalytics.getInstance(mContext!!)
     }
 
     @Throws(JSONException::class)
     override fun execute(action: String, args: JSONArray, callbackContext: CallbackContext): Boolean {
-        var options = args.getJSONObject(0)
+
         when (action) {
             "setEnabled" -> {
+                val options = args.getJSONObject(0)
                 val enabled = options.getBoolean("setEnabled")
                 try {
                     firebaseAnalytics.setAnalyticsCollectionEnabled(enabled)
@@ -48,6 +47,7 @@ class EmiFirebaseAnalyticsPlugin : CordovaPlugin() {
                 return true
             }
             "logEvent" -> {
+                val options = args.getJSONObject(0)
                 val name = options.getString("name")
                 val params = options.getJSONObject("params")
                 val bundle = createBundleFromJSONObject(params)
@@ -60,6 +60,7 @@ class EmiFirebaseAnalyticsPlugin : CordovaPlugin() {
                 return true
             }
             "logEventSelectContent" -> {
+                val options = args.getJSONObject(0)
                 val id = options.getString("id")
                 val name = options.getString("name")
                 val value = options.getString("value")
@@ -76,6 +77,7 @@ class EmiFirebaseAnalyticsPlugin : CordovaPlugin() {
                 return true
             }
             "setUserId" -> {
+                val options = args.getJSONObject(0)
                 val userId = options.getString("userId")
                 try {
                     firebaseAnalytics.setUserId(userId)
@@ -86,6 +88,7 @@ class EmiFirebaseAnalyticsPlugin : CordovaPlugin() {
                 return true
             }
             "setUserProperty" -> {
+                val options = args.getJSONObject(0)
                 val name = options.getString("name")
                 val value = options.getString("value")
                 try {
@@ -106,6 +109,7 @@ class EmiFirebaseAnalyticsPlugin : CordovaPlugin() {
                 return true
             }
             "setCurrentScreen" -> {
+                val options = args.getJSONObject(0)
                 val screenName = options.getString("screenName")
                 try {
                     val bundle = Bundle()
@@ -118,6 +122,7 @@ class EmiFirebaseAnalyticsPlugin : CordovaPlugin() {
                 return true
             }
             "setDefaultEventParameters" -> {
+                val options = args.getJSONObject(0)
                 val params = options.getJSONObject("params")
                 val bundle = createBundleFromJSONObject(params)
                 try {
@@ -129,6 +134,7 @@ class EmiFirebaseAnalyticsPlugin : CordovaPlugin() {
                 return true
             }
             "setConsent" -> {
+                val options = args.getJSONObject(0)
                 val analyticsStorage = options.getString("analyticsStorage")
                 val adStorage = options.getString("adStorage")
                 try {
@@ -142,6 +148,7 @@ class EmiFirebaseAnalyticsPlugin : CordovaPlugin() {
                 return true
             }
             "setAdMobRevenuePaid" -> {
+                val options = args.getJSONObject(0)
                 try {
                     val data: JSONObject = options.getJSONObject("data")
                     val value = data.optDouble("value", 0.0)
@@ -168,7 +175,6 @@ class EmiFirebaseAnalyticsPlugin : CordovaPlugin() {
     }
 
 
-
     @Throws(JSONException::class)
     private fun createBundleFromJSONObject(params: JSONObject): Bundle {
         val bundle = Bundle()
@@ -176,32 +182,31 @@ class EmiFirebaseAnalyticsPlugin : CordovaPlugin() {
         while (iter.hasNext()) {
             val key = iter.next()
             val obj = params[key]
-            if (obj is Int) {
-                bundle.putInt(key, obj)
-            } else if (obj is Double) {
-                bundle.putDouble(key, obj)
-            } else if (obj is Float) {
-                bundle.putFloat(key, obj)
-            } else if (obj is JSONObject) {
-                val item = createBundleFromJSONObject(obj)
-                bundle.putBundle(key, item)
-            } else if (obj is JSONArray) {
-                val objArr = obj
-                val bundleArray = ArrayList<Bundle>(objArr.length())
-                for (idx in 0 until objArr.length()) {
-                    val tmp = objArr[idx]
-                    if (tmp is JSONObject) {
-                        val item = createBundleFromJSONObject(objArr.getJSONObject(idx))
-                        bundleArray.add(item)
+            when (obj) {
+                is Int -> bundle.putInt(key, obj)
+                is Double -> bundle.putDouble(key, obj)
+                is Float -> bundle.putFloat(key, obj)
+                is Boolean -> bundle.putBoolean(key, obj)
+                is JSONObject -> bundle.putBundle(key, createBundleFromJSONObject(obj))
+                is JSONArray -> {
+                    val bundleArray = ArrayList<Bundle>(obj.length())
+                    for (idx in 0 until obj.length()) {
+                        val item = obj.get(idx)
+                        if (item is JSONObject) {
+                            bundleArray.add(createBundleFromJSONObject(item))
+                        } else {
+                            // Log data non-JSONObject (opsional)
+                            // Log.w("createBundle", "Item at index $idx is not a JSONObject: $item")
+                        }
                     }
+                    bundle.putParcelableArrayList(key, bundleArray)
                 }
-                bundle.putParcelableArrayList(key, bundleArray)
-            } else {
-                bundle.putString(key, obj.toString())
+                else -> bundle.putString(key, obj.toString())
             }
         }
         return bundle
     }
+
 
     companion object {
         private const val TAG = "FirebaseAnalyticsPlugin"
