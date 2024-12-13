@@ -174,7 +174,7 @@ function setConsent() {
 /////////////////////
 document.addEventListener("deviceready", function () {
 
-   cordova.plugins.EmiFirebaseAnalyticsPlugin.setEnabled({ enabled: true });
+   cordova.plugins.EmiFirebaseAnalyticsPlugin.setEnabled({ setEnabled: true });
 	
 	//Sets the duration of inactivity that terminates the current session. The default value is 1800000 (30 minutes).
 	cordova.plugins.EmiFirebaseAnalyticsPlugin.setSessionTimeoutDuration({ milliseconds: 500 });
