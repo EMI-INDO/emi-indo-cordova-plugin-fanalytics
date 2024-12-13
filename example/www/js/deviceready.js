@@ -66,7 +66,7 @@ const default_item_socks = {
 
     if (typeof cordova !== 'undefined') {
 
-        cordova.plugins.emiFanalyticsPlugin.logEvent({ name: "item_socks", params: item_socks });
+        cordova.plugins.EmiFirebaseAnalyticsPlugin.logEvent({ name: "item_socks", params: item_socks });
 
     }
 }
@@ -78,7 +78,7 @@ function logEventSelectContent() {
 
     if (typeof cordova !== 'undefined') {
   
-      cordova.plugins.emiFanalyticsPlugin.logEventSelectContent({
+      cordova.plugins.EmiFirebaseAnalyticsPlugin.logEventSelectContent({
 
       id: "item_id",
       name: "item_name",
@@ -96,7 +96,7 @@ function logEventSelectContent() {
 
     if (typeof cordova !== 'undefined') {
   
-      cordova.plugins.emiFanalyticsPlugin.resetAnalyticsData();
+      cordova.plugins.EmiFirebaseAnalyticsPlugin.resetAnalyticsData();
 
    }
 }
@@ -107,7 +107,7 @@ function setCurrentScreen() {
 
     if (typeof cordova !== 'undefined') {
   
-      cordova.plugins.emiFanalyticsPlugin.setCurrentScreen({ screenName: "Main menu" });
+      cordova.plugins.EmiFirebaseAnalyticsPlugin.setCurrentScreen({ screenName: "Main menu" });
     }
 
   }
@@ -117,7 +117,7 @@ function setCurrentScreen() {
 
     if (typeof cordova !== 'undefined') {
 
-      cordova.plugins.emiFanalyticsPlugin.setUserId({ userId: "123456" });
+      cordova.plugins.EmiFirebaseAnalyticsPlugin.setUserId({ userId: "123456" });
 
     }
 
@@ -130,7 +130,7 @@ function setCurrentScreen() {
 
     if (typeof cordova !== 'undefined') {
   
-      cordova.plugins.emiFanalyticsPlugin.setUserProperty({
+      cordova.plugins.EmiFirebaseAnalyticsPlugin.setUserProperty({
       name: 'favorite_food',
       value: "favoriteFood"
 
@@ -146,7 +146,7 @@ function setCurrentScreen() {
 
     if (typeof cordova !== 'undefined') {
   
-      cordova.plugins.emiFanalyticsPlugin.setDefaultEventParameters({ params: default_item_socks });
+      cordova.plugins.EmiFirebaseAnalyticsPlugin.setDefaultEventParameters({ params: default_item_socks });
 
   }
 
@@ -158,7 +158,7 @@ function setConsent() {
 
     if (typeof cordova !== 'undefined') {
   
-      cordova.plugins.emiFanalyticsPlugin.setConsent({
+      cordova.plugins.EmiFirebaseAnalyticsPlugin.setConsent({
       analyticsStorage: "DENIED", // String // DENIED | GRANTED
       adStorage: "DENIED", // String // DENIED | GRANTED
      
@@ -174,9 +174,9 @@ function setConsent() {
 /////////////////////
 document.addEventListener("deviceready", function () {
 
-   cordova.plugins.emiFanalyticsPlugin.setEnabled({ enabled: true });
+   cordova.plugins.EmiFirebaseAnalyticsPlugin.setEnabled({ enabled: true });
 	
 	//Sets the duration of inactivity that terminates the current session. The default value is 1800000 (30 minutes).
-	cordova.plugins.emiFanalyticsPlugin.setSessionTimeoutDuration({ milliseconds: 500 });
+	cordova.plugins.EmiFirebaseAnalyticsPlugin.setSessionTimeoutDuration({ milliseconds: 500 });
 
 }, false);
