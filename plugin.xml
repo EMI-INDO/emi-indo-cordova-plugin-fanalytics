@@ -1,7 +1,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	id="emi-indo-cordova-plugin-fanalytics"
-	version="0.0.7">
+	version="0.0.9">
 	<name>EmiFanalyticsPlugin</name>
 	<description>Cordova Plugin Firebase Analytics support consent</description>
 	<author>EMI INDO</author>

@@ -41,7 +41,7 @@
 - setConsent
 - setAdMobRevenuePaid
 
-## Installation Capacitor
+# Installation Capacitor
 
 - project confirmation ( Android )
 - add file  ```google-services.json ``` inside the www folder
@@ -50,7 +50,7 @@
 - add file  ```GoogleService-Info.plist ``` inside the www folder
 
 
-## Installation
+## Installation plugin
 ```sh
 npm i emi-indo-cordova-plugin-fanalytics
 ```
@@ -72,6 +72,8 @@ npm i emi-indo-cordova-plugin-fanalytics
 ```
 npm run update-analytics
 ```
+
+
 ### Plugin Synchronization: Run the following command to synchronize the Cordova plugin to the Capacitor project:
 
 ```
@@ -79,7 +81,54 @@ npx cap sync
 ```
 
 
-## Installation Cordova
+
+### Optional (capacitor-config-variable.js)
+- Value true by default
+- If you want to change it to false
+- add in capacitor.config.json
+
+```
+{
+  "appId": "io.cordova.hellocordova",
+  "appName": "HelloCordova",
+  "webDir": "www",
+  "bundledWebRuntime": false,
+  "plugins": {
+    "Analytics": {
+      "ANALYTICS_COLLECTION_ENABLED": "false",       // Customize with needs true | false
+      "AUTOMATIC_SCREEN_REPORTING_ENABLED": "false", // Customize with needs true | false
+      "DEFAULT_ALLOW_ANALYTICS_STORAGE": "false",    // Customize with needs true | false
+      "DEFAULT_ALLOW_AD_STORAGE": "false"            // Customize with needs true | false
+    }
+  }
+}
+```
+
+### add node to package.json 
+- capacitor-config-variable.js
+
+```sh
+
+ "scripts": {
+	.....
+	.....
+	"update-analytics": "node node_modules/emi-indo-cordova-plugin-fanalytics/hooks/capacitor-config-hooks.js",
+        "update-analytics-variable": "node node_modules/emi-indo-cordova-plugin-fanalytics/hooks/capacitor-config-variable.js",
+	.....
+	.....
+  },
+
+```
+
+### Run the Hook script
+```
+npm run update-analytics-variable
+```
+
+
+
+
+# Installation Cordova
 
 ```sh
 cordova plugin add emi-indo-cordova-plugin-fanalytics
